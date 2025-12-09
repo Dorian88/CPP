@@ -13,6 +13,11 @@ class Persona{
     public:
         Persona(string n, int e): nombre(n), edad(e){}
 
+        //Destructor
+        virtual ~Persona(){
+            cout << "Destructor de Persona" << endl;
+        }
+
         virtual void mostrarDatos(){ //El compilador genera una tabla de metodos virtuales para cada clase
             cout << "Nombre: " << nombre << endl;
             cout << "Edad: " << edad << endl;
@@ -21,12 +26,22 @@ class Persona{
 
 class Alumno: public Persona{ //Sintaxis de herencia
     private:
-        string estudios;
+        string* estudios;
 
     public:
-        Alumno(string n, int e, string es): Persona(n, e), estudios(es){} //Persona(n, e) es el constructor de la clase padre Persona
+        Alumno(string n, int e, string es): Persona(n, e){
+            estudios = new string (es);
+        } //Persona(n, e) es el constructor de la clase padre Persona
 
-        void mostrarDatos(){
+        //Destructor
+        ~Alumno (){
+
+            cout << "Destructor de Alumno" << endl;
+            delete estudios;
+
+        }
+
+        void mostrarDatos() override{
             //Reutilizacion del metodo de la clase padre
             Persona::mostrarDatos();
             cout << "Estudios: " << estudios << endl;
@@ -35,10 +50,22 @@ class Alumno: public Persona{ //Sintaxis de herencia
 
 class Profesor: public Persona{
     private:
-        string materia;
+        string* materia;
 
     public:
-        Profesor(string n, int e, string ma): Persona(n, e), materia(ma){}
+        Profesor(string n, int e, string ma): Persona(n, e){
+
+            materia = new string (ma);
+
+        }
+
+        //Destructor
+        ~Profesor (){
+
+            cout << "Destructor de Profesor" << endl;
+            delete materia;
+
+        }
 
         void mostrarDatos(){
             //Reutilizacion del metodo de la clase padre
@@ -52,6 +79,7 @@ int main(){
     Profesor p1("Luisa", 39, "Historia");
     Persona* persona1 = &a1;
     Persona* persona2 = &p1;
+    Persona* p2 = new Alumno ("Diana", 35, "Ingenieria Industrial");
 
     cout << "Usando la herencia de manera normal" << endl;
 
@@ -66,4 +94,11 @@ int main(){
     persona1 -> mostrarDatos(); //Polimorfismo
     cout << "\n";
     persona2 -> mostrarDatos();
+
+    cout << "\nUsando el destructor" << endl;
+
+    p2 -> mostrarDatos();
+    delete p2;
+
+    cout << "\nUsando override" << endl;
 }
