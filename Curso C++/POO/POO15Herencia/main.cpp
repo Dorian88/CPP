@@ -41,7 +41,7 @@ class Alumno: public Persona{ //Sintaxis de herencia
 
         }
 
-        void mostrarDatos() override{
+        void mostrarDatos() override final{
             //Reutilizacion del metodo de la clase padre
             Persona::mostrarDatos();
             cout << "Estudios: " << estudios << endl;
@@ -101,4 +101,6 @@ int main(){
     delete p2;
 
     cout << "\nUsando override" << endl;
+    cout << "Se utiliza para reescribir el metodo mostrarDatos de la clase Persona desde la clase Alumno" << endl;
+    cout << "\nCon final no se puede heredar una clase y lo mismo aplica para sobreescribir metodos" << endl;
 }
